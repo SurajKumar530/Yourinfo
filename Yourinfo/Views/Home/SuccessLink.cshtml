@@ -1,0 +1,84 @@
+﻿@model LinkModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Link</title>
+
+  @*   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> *@
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <link href="~/css/Yourinfo/pdf.css" rel="stylesheet" />
+    <script>
+        function copyToClipboard(text) {
+            
+            // Create a temporary element (usually a textarea) to hold the text
+            var tempInput = document.createElement("textarea");
+            tempInput.style.position = "absolute";
+            tempInput.style.left = "-1000px";
+            tempInput.style.top = "-1000px";
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+
+            // Select the text in the temporary element
+            tempInput.select();
+            tempInput.setSelectionRange(0, 99999); // For mobile devices
+
+            // Execute copy command
+            document.execCommand("copy");
+            // Remove the temporary element
+            document.body.removeChild(tempInput);
+        }
+
+        function openLink(url) {
+            // Replace with your actual URL
+            var newWindow = window.open(url, '_blank');
+            newWindow.focus();
+        }
+    </script>
+
+</head>
+<body>
+    <div class="container">
+        <br><br><br><br>
+        <div class="col-lg-12" id="yourDiv" style="margin:0 auto; float: none;">
+            <div class="panel panel-primary">
+                <div class="panel-heading text-center" style="background-color: green"><h3>Successfully create your website link</h3></div>
+                <div class="panel-body">
+                    @if (ViewBag.Error != null)
+                    {
+                        <div class="alert alert-danger">
+                            @ViewBag.Error
+                        </div>
+                    }
+                    <div class="form-horizontal" id="myForm">
+                        <input type="hidden" name="customerId" value="@Model.CustomerId">
+                        <input type="hidden" name="domain" value="@Model.URL">
+                        <div class="form-group">
+                            <span class="input-group-addon" style="font-size: 15px; text-align: left;">@Model.URL</span>
+                        </div>
+                        <br>
+                        <div class="button-wrapper">
+                            <button type="submit" name="btnsubmit" class="btn btn-primary" onclick=copyToClipboard("@Model.URL")>Copy To Clipboard</button>
+                            <button type="submit" name="btnsubmit" class="btn btn-success" onclick=openLink("@Model.URL")>Go To Your Link</button>
+                            <button type="submit" name="btnsubmit" class="btn btn-success">Generate PDF</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+

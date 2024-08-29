@@ -1,0 +1,10 @@
+﻿@using Microsoft.AspNetCore.Antiforgery
+
+@{
+    var antiforgery = Context.RequestServices.GetRequiredService<IAntiforgery>();
+    var tokenSet = antiforgery.GetAndStoreTokens(Context);
+}
+
+<form id="logoutForm" method="post" action="/Account/Logout">
+    <input type="hidden" name="__RequestVerificationToken" value="@tokenSet.RequestToken" />
+</form>

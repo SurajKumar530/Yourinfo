@@ -1,0 +1,94 @@
+﻿@model LinkModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Link</title>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/lib/sweetalert/sweetalert2@11.js"></script>
+   @*  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> *@
+    <script>
+        $(document).ready(function () {
+            $('#myForm').on('submit', function (e) {
+                e.preventDefault(); // Prevent the default form submission
+
+                var formData = $(this).serialize(); // Serialize form data
+
+                $.ajax({
+                    url: '@Url.Action("CreateLinkwithURL","Home")',
+                    type: 'POST',
+                    data: formData,
+                    success: function (response) {
+                        if (response.success) {
+                            Swal.fire({
+                                title: 'Success',
+                                text: 'Link created successfully! You will be redirected shortly.',
+                                icon: 'success',
+                                confirmButtonText: 'OK'
+                            }).then(() => {
+                                window.location.href = response.url; // Redirect to the URL if needed
+                            });
+                        } else {
+                            Swal.fire({
+                                title: 'Error',
+                                text: response.message,
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'An unexpected error occurred: ' + xhr.responseText,
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+
+</head>
+<body>
+    <div class="container">
+        <br><br><br><br>
+        <div class="col-lg-9" id="yourDiv" style="margin:0 auto; float: none;">
+            <div class="panel panel-primary">
+                <div class="panel-heading text-center">
+                    <h3>Create Your Link OR</h3>
+                    <form id="myForm1" method="post" asp-action="GetSitePrivriew">
+                        <input type="hidden" name="customerId" value="@Model.CustomerId">
+                        <button type="submit" style="width: 20%;" name="btnsubmit" class="btn btn-success">View Web Site</button>
+                    </form>
+                </div>
+                <div class="panel-body">
+                    <form class="form-horizontal" id="myForm" method="post" asp-action="CreateLinkwithURL">
+                        <input type="hidden" name="customerId" value="@Model.CustomerId">
+                        <input type="hidden" name="domain" value="@Model.Domain">
+                        <input type="hidden" name="registerEmailId" value="@Model.RegisterEmailId">
+                        <div class="form-group" style="overflow-x: scroll;">
+                            <div class="input-group prefix" style="padding: 15px; ">
+                                <span class="input-group-addon" style="font-size: 8px;">@Model.Domain</span>
+                                <input type="text" name="subDomain" id="subDomain" value="test" class="form-control">
+                            </div>
+                        </div>
+                        <br>
+                        <button type="submit" style="width: 100%;" name="btnsubmit" class="btn btn-success">Create</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

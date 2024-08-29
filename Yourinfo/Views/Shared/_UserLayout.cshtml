@@ -1,0 +1,274 @@
+﻿@{
+    // var currentUrl = Url.Action("Index", "Home", null, Request.Scheme);
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>YoursInfo - Index</title>
+    <meta content="" name="descriptison">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="assets/img/favicon.png" rel="icon">
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,600,600i,700,700i,900" rel="stylesheet">
+    <link href="https://kendo.cdn.telerik.com/themes/8.2.1/default/default-main.css" rel="stylesheet" />
+    <!-- Vendor CSS Files -->
+    <link href="~/user/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/user/assets/vendor/icofont/icofont.min.css" rel="stylesheet">
+    <link href="~/user/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="~/user/assets/vendor/animate.css/animate.min.css" rel="stylesheet">
+    <link href="~/user/assets/vendor/venobox/venobox.css" rel="stylesheet">
+    <link href="~/user/assets/vendor/aos/aos.css" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="~/user/assets/css/style.css" rel="stylesheet">
+</head>
+
+<body class=" ">
+
+    <!-- ======= Top Bar ======= -->
+    <section id="topbar" class="d-none d-lg-block">
+        <div class="container clearfix">
+            <div class="contact-info float-left" id="headerDet">
+            </div>
+            <div class="social-links float-right" id="social-links">
+            </div>
+        </div>
+    </section>
+    <!-- Modal Structure -->
+    <div class="modal fade" id="QR" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Scan QR Code and Get Detail</h5>
+                   
+                </div>
+                <div class="modal-body" style="margin: auto;" id="QRCode">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Modal Structure --!>
+
+    <!-- ======= Header ======= -->
+    <header id="header">
+        <div class="container">
+
+            <div class="logo float-left">
+                <h1 class="text-light"><a href="@Url.Action("Index","User")"><span>Yours Info</span></a></h1>
+            </div>
+
+            <nav class="nav-menu float-right d-none d-lg-block">
+                <ul>
+                    <li class="active"><a href="#header">Home</a></li>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#portfolio">Portfolio</a></li>
+                    <li><a href="#team">Team</a></li>
+                    <li><a href="#contact">Contact Us</a></li>
+                    <li><a href="@Url.Action("Login", "Account")">Login Customer</a></li>
+                </ul>
+            </nav><!-- .nav-menu -->
+
+        </div>
+    </header>
+    <!-- End Header -->
+    <!-- Render Body -->
+    @RenderBody()
+    <!--End Render Body -->
+    <!-- ======= Footer ======= -->
+
+    <footer id="footer">
+        <div class="footer-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-md-8 footer-info">
+                        <h3 id="company-name">Mamba</h3>
+                        <p id="footer-address">
+                            A108 Adam Street <br>
+                            NY 535022, USA<br><br>
+                            <strong>Phone:</strong> +1 5589 55488 55<br>
+                            <strong>Email:</strong> info@example.com<br>
+                        </p>
+                        <div class="social-links mt-3" id="social-links-footer">
+                            <!-- Social links will be populated here -->
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-4 footer-links">
+                        <h4>Useful Links</h4>
+                        <ul id="useful-links">
+                            <!-- Useful links will be populated here -->
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="copyright">
+                &copy; Copyright <strong><span id="footer-company-name">Mamba</span></strong>. All Rights Reserved
+            </div>
+        </div>
+    </footer>
+    <!-- End Footer -->
+
+    <a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
+
+    <!-- Vendor JS Files -->
+    <script src="~/user/assets/vendor/jquery/jquery.min.js"></script>
+    <script src="~/user/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/user/assets/vendor/jquery.easing/jquery.easing.min.js"></script>
+    <script src="~/user/assets/vendor/php-email-form/validate.js"></script>
+    <script src="~/user/assets/vendor/jquery-sticky/jquery.sticky.js"></script>
+    <script src="~/user/assets/vendor/venobox/venobox.min.js"></script>
+    <script src="~/user/assets/vendor/waypoints/jquery.waypoints.min.js"></script>
+    <script src="~/user/assets/vendor/counterup/counterup.min.js"></script>
+    <script src="~/user/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="~/user/assets/vendor/aos/aos.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2024.3.806/mjs/kendo.all.js" type="module"></script>
+    <!-- Template Main JS File -->
+    <script src="~/user/assets/js/main.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            function loadFooterContent() {
+                $.ajax({
+                    url: '@Url.Action("GetFooterContent", "User")',
+                    type: 'GET',
+                    success: function (data) {
+
+                        // Populate company name
+                        $('#company-name').text(data.companyName);
+                        $('#footer-company-name').text(data.companyName);
+
+                        // Populate address, phone, email
+                        $('#footer-address').html(
+                            data.address + '<br><br>' +
+                            '<strong>Phone:</strong> ' + data.phone + '<br>' +
+                            '<strong>Email:</strong> ' + data.email
+                        );
+
+                        $('#headerDet').html(
+                            '<i class="icofont-envelope"></i><a href="mailto:' + data.socialLinks.email + '">' + data.email + '</a>' +
+                            '<i class="icofont-phone"></i><a href="tel:' + data.phone + '"s>' + data.phone + '</a>'
+                        );
+
+
+                        // Initialize the HTML string for social links
+                        var socialLinksHtml = '';
+
+                        // Conditionally append each social link if it exists
+                        if (data.socialLinks.whatsapp) {
+                            socialLinksHtml += '<a href="https://wa.me/' + data.socialLinks.whatsapp + '" target="_blank" class="whatsapp" title="Whatsapp"><i class="bx bxl-whatsapp"></i></a>';
+                        }
+
+                        if (data.socialLinks.phoneNumber) {
+                            socialLinksHtml += '<a href="tel:' + data.socialLinks.phoneNumber + '" class="phoneNumber" title="Call"><i class="bx bx-phone-call"></i></a>';
+                        }
+
+                        if (data.socialLinks.sms) {
+                            socialLinksHtml += '<a href="smsto:' + data.socialLinks.sms + '" class="sms" title="SMS"><i class="bx bx-message"></i></a>';
+                        }
+
+                        if (data.socialLinks.email) {
+                            socialLinksHtml += '<a href="mailto:' + data.socialLinks.email + '" class="email" title="Email"><i class="bx bx-mail-send"></i></a>';
+                        }
+
+                        socialLinksHtml += '<a href="#" data-toggle="modal" data-target="#QR" class="open-modal"><i class="bx bx-scan"></i></a>';
+
+                        if (data.socialLinks.twitter) {
+                            socialLinksHtml += '<a href="' + data.socialLinks.twitter + '" class="twitter" title="Twitter" target="_blank"><i class="bx bxl-twitter"></i></a>';
+                        }
+
+                        if (data.socialLinks.facebook) {
+                            socialLinksHtml += '<a href="' + data.socialLinks.facebook + '" class="facebook" title="Facebook" target="_blank"><i class="bx bxl-facebook"></i></a>';
+                        }
+
+                        if (data.socialLinks.instagram) {
+                            socialLinksHtml += '<a href="' + data.socialLinks.instagram + '" class="instagram" title="Instagram" target="_blank"><i class="bx bxl-instagram"></i></a>';
+                        }
+
+                        if (data.socialLinks.linkedIn) {
+                            socialLinksHtml += '<a href="' + data.socialLinks.linkedIn + '" class="linkedin" title="LinkedIn" target="_blank"><i class="bx bxl-linkedin"></i></a>';
+                        }
+                        
+                        if (data.socialLinks.youTube) {
+                            socialLinksHtml += '<a href="' + data.socialLinks.youTube + '" class="YouTube" title="YouTube" target="_blank"><i class="bx bxl-youtube"></i></a>';
+                        }
+                        
+                        if (data.socialLinks.googleMap) {
+                            socialLinksHtml += '<a href="' + data.socialLinks.googleMap + '" class="GoogleMap" title="GoogleMap" target="_blank"><i class="bx bx-map"></i></a>';
+                        }
+
+                        // Populate the social links in the footer
+                        $('#social-links-footer').html(socialLinksHtml);
+
+                        $('#social-links').html(socialLinksHtml);
+
+                        // // Populate social links
+                        // $('#social-links').html(
+                        //     '<a href="https://wa.me/' + data.socialLinks.whatsapp + '" target="_blank" class="whatsapp" title="Whatsapp"><i class="bx bxl-whatsapp"></i></a>' +
+                        //     '<a href="tel:' + data.socialLinks.phoneNumber + '" class="phoneNumber" title="Call"><i class="bx bx-phone-call"></i></a>' +
+                        //     '<a href="smsto:' + data.socialLinks.sms + '" class="sms" title="SMS"><i class="bx bx-message"></i></a>' +
+                        //     '<a href="' + data.socialLinks.googleMap + '" class="google" title="Google"><i class="bx bx-world"></i></a>' +
+                        //     '<a href="mailto:' + data.socialLinks.email + '" class="email" title="Email"><i class="bx bx-mail-send"></i></a>' +
+                        //     '<a href="#" data-toggle="modal" data-target="#QR" class="open-modal"><i class="bx bx-scan"></i></a>' +
+                        //     '<a href="' + data.socialLinks.twitter + '" class="twitter" title="Twitter" target="_blank"><i class="bx bxl-twitter"></i></a>' +
+                        //     '<a href="' + data.socialLinks.facebook + '" class="facebook" title="Facebook" target="_blank"><i class="bx bxl-facebook"></i></a>' +
+                        //     '<a href="' + data.socialLinks.instagram + '" class="instagram" title="Instagram" target="_blank"><i class="bx bxl-instagram"></i></a>' +
+                        //     '<a href="' + data.socialLinks.linkedIn + '" class="linkedin" title="LinkedIn" target="_blank"><i class="bx bxl-linkedin"></i></a>'
+                        // );
+
+                        $('#QRCode').html(
+                             
+                            '<img id="shareImage"  src="'+data.fullUrl+'" alt="QR Code" style="height:220px;width:220px">'
+                        );
+
+                        // // Populate social links
+                        // $('#social-links-footer').html(
+                        //     '<a href="https://wa.me/' + data.socialLinks.whatsapp + '" target="_blank" class="whatsapp" title="Whatsapp"><i class="bx bxl-whatsapp"></i></a>' +
+                        //     '<a href="tel:' + data.socialLinks.phoneNumber + '" class="phoneNumber" title="Call"><i class="bx bx-phone-call"></i></a>' +
+                        //     '<a href="smsto:' + data.socialLinks.sms + '" class="sms" title="SMS"><i class="bx bx-message"></i></a>' +
+                        //     '<a href="mailto:' + data.socialLinks.email + '" class="email" title="Email"><i class="bx bx-mail-send"></i></a>' +
+                        //     '<a href="#" data-toggle="modal" data-target="#QR" class="open-modal"><i class="bx bx-scan"></i></a>' +
+                        //     '<a href="' + data.socialLinks.twitter + '" class="twitter" title="Twitter" target="_blank"><i class="bx bxl-twitter"></i></a>' +
+                        //     '<a href="' + data.socialLinks.facebook + '" class="facebook" title="Facebook" target="_blank"><i class="bx bxl-facebook"></i></a>' +
+                        //     '<a href="' + data.socialLinks.instagram + '" class="instagram" title="Instagram" target="_blank"><i class="bx bxl-instagram"></i></a>' +
+                        //     '<a href="' + data.socialLinks.linkedIn + '" class="linkedin" title="LinkedIn" target="_blank"><i class="bx bxl-linkedin"></i></a>'
+                        // );
+
+                        // Populate useful links
+                        var usefulLinksHtml = '';
+                        $.each(data.usefulLinks, function (index, link) {
+                            usefulLinksHtml += '<li><i class="bx bx-chevron-right"></i> <a href="' + link.url + '">' + link.text + '</a></li>';
+                        });
+                        $('#useful-links').html(usefulLinksHtml);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error loading footer content:', error);
+                        $('#footer').html('<p>Sorry, we couldn\'t load the footer content at this time.</p>');
+                    }
+                });
+            }
+
+
+            loadFooterContent(); // Call the function to load footer content
+
+
+        });
+    </script>
+
+
+    @RenderSection("Scripts", required: false)
+</body>
+
+</html>

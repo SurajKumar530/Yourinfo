@@ -1,0 +1,681 @@
+﻿@model Yourinfo.Models.CustomerMSt
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site Entry Details</title>
+
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <link href="~/lib/sweetalert/sweetalert2.min.css" rel="stylesheet" />
+    <script src="~/lib/sweetalert/sweetalert2@11.js"></script>
+    @*  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> *@
+    <script defer>
+        $(document).ready(function () {
+            $('#countryDropdown').change(function () {
+
+                var countryId = $(this).val();
+                if (countryId) {
+                    $.ajax({
+                        url: '/Home/GetStates',
+                        type: 'GET',
+                        dataType: 'json',
+                        data: { countrytext: countryId },
+                        success: function (data) {
+                            $('#stateDropdown').empty();
+                            $('#stateDropdown').append($('<option>').text('Select a state').attr('value', ''));
+                            $.each(data.userViewState.dropdownItems, function (index, state) {
+                                $('#stateDropdown').append($('<option>').text(state.value).attr('value', state.text));
+                            });
+                        }
+                    });
+                } else {
+                    $('#stateDropdown').empty();
+                    $('#stateDropdown').append($('<option>').text('Select a state').attr('value', ''));
+                }
+            });
+
+            $('#stateDropdown').change(function () {
+
+                var countryId = $(this).val();
+                if (countryId) {
+                    $.ajax({
+                        url: '/Home/GetCity',
+                        type: 'GET',
+                        dataType: 'json',
+                        data: { Statetext: countryId },
+                        success: function (data) {
+                            $('#cityDropdown').empty();
+                            $('#cityDropdown').append($('<option>').text('Select a City').attr('value', ''));
+                            $.each(data.userViewCity.dropdownItems, function (index, state) {
+                                $('#cityDropdown').append($('<option>').text(state.value).attr('value', state.text));
+                            });
+                        }
+                    });
+                } else {
+                    $('#cityDropdown').empty();
+                    $('#cityDropdown').append($('<option>').text('Select a City').attr('value', ''));
+                }
+            });
+        });
+
+        function funnumberverify() {
+            if ($('#numbercheck').is(':checked')) {
+                var mobile = $('#mobileRegister').val();
+                $('#whatsAppNumber').val(mobile);
+            }
+            else $('#whatsAppNumber').val('');
+        }
+
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            padding: 0px;
+        }
+
+        .formbold-main-wrapper {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .formbold-form-wrapper {
+            width: 100%;
+            max-width: 900px; /* Increased maximum width for larger screens */
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0px 3px 18px rgba(0, 0, 0, 0.1);
+        }
+
+        .formbold-event-wrapper {
+            margin-bottom: 30px;
+        }
+
+            .formbold-event-wrapper h3 {
+                font-size: 24px;
+                color: #333;
+                margin-bottom: 15px;
+            }
+
+        .formbold-input-flex {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+            .formbold-input-flex > div {
+                flex: 1 1 calc(50% - 10px);
+            }
+
+        .formbold-form-label {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 8px;
+            display: block;
+            color: black;
+        }
+
+        .formbold-form-input {
+            width: 100%;
+            padding: 12px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+
+            .formbold-form-input:focus {
+                border-color: #6a64f1; /* Highlight border color on focus */
+            }
+
+        .formbold-btn {
+            width: 100%;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #ffffff;
+            background-color: #4b47ed;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+            .formbold-btn:hover {
+                background-color: #6a64f1; /* Darker shade on hover */
+            }
+
+        .formbold-policy {
+            font-size: 14px;
+            color: #666;
+            margin-top: 15px;
+            line-height: 1.6;
+        }
+
+            .formbold-policy a {
+                color: #6a64f1;
+                text-decoration: none;
+                transition: color 0.3s ease;
+            }
+
+                .formbold-policy a:hover {
+                    color: #4b47ed;
+                }
+
+        /* Media queries for responsiveness */
+        @@media (max-width: 992px) {
+            .formbold-input-flex > div {
+                flex: 1 1 100%;
+                margin-bottom: 15px;
+            }
+        }
+
+        @@media (max-width: 768px) {
+            .formbold-form-wrapper {
+                padding: 20px;
+            }
+
+            .formbold-form-label {
+                font-size: 14px;
+            }
+
+            .formbold-btn {
+                padding: 12px;
+                font-size: 14px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="formbold-main-wrapper">
+        <div class="formbold-form-wrapper">
+            <div class="formbold-event-wrapper">
+                <h3>Site Information</h3>
+
+                <form id="customerForm" method="post" enctype="multipart/form-data">
+
+                    <div class="formbold-input-flex">
+                        <div>
+                            <label asp-for="customer.CustomerName" class="formbold-form-label" for="CusotmerName"></label>
+                            <input asp-for="customer.CustomerName" id="CusotmerName" class="formbold-form-input" />
+                            <span asp-validation-for="customer.CustomerName" class="text-danger"></span>
+                        </div>
+
+                        <div>
+                            <label for="ChooseLink" class="formbold-form-label">Choose Your Link :</label>
+                            @Html.DropDownListFor(m => m.customer.Chooseyourtype, new SelectList(Model.userViewChoose.DropdownItems, "Text", "Value"), "Select Choose Type", new { @class = "formbold-form-input", @id = "ChooseLink" })
+                            <span asp-validation-for="customer.Chooseyourtype" class="text-danger"></span>
+                        </div>
+
+                    </div>
+                    <div class="formbold-input-flex">
+                        <div>
+                            <label class="formbold-form-label" for="imageInput">Logo</label>
+                            <input type="file" class="formbold-form-input" id="imageInput" name="Logofile">
+                        </div>
+                        <div>
+                            <label class="formbold-form-label" for="files">Gallery Images </label>
+                            <input type="file" id="files" class="formbold-form-input" name="galleryFiles" multiple />
+                        </div>
+                    </div>
+
+                    <div class="formbold-input-flex">
+                        <div>
+                            <label asp-for="customer.Company_Business_Name" class="formbold-form-label" for="ComapnyBussinessName">Company / Business Name *</label>
+                            <input asp-for="customer.Company_Business_Name" id="ComapnyBussinessName" class="formbold-form-input" />
+                            <span asp-validation-for="customer.Company_Business_Name" class="text-danger"></span>
+                        </div>
+
+                        <div>
+                            <label class="formbold-form-label">GSTIN Number</label>
+                            <input type="text" name="customer.GSTIN_Number" class="formbold-form-input" />
+                        </div>
+                    </div>
+
+                    <div class="formbold-input-flex">
+                        <div>
+                            <label class="formbold-form-label">Owner / Founder Name *</label>
+                            <input type="text" id="OwnerName" asp-for="customer.OwnerFounder_Name" class="formbold-form-input" />
+                            <span asp-validation-for="customer.OwnerFounder_Name" class="text-danger"></span>
+                        </div>
+
+                        <div>
+                            <label class="formbold-form-label" asp-for="customer.CustomField" for="CustomField">Custom Field</label>
+                            <input type="text" id="CustomField" asp-for="customer.CustomField" class="formbold-form-input" />
+                            <span asp-validation-for="customer.CustomField" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="formbold-input-flex">
+                        <div>
+                            <label class="formbold-form-label" asp-for="customer.Address" for="Address">Address</label>
+                            <input type="text" id="Address" asp-for="customer.Address" class="formbold-form-input" />
+                            <span asp-validation-for="customer.CustomField" class="text-danger"></span>
+                            <p class="text-danger">Note: Don't add above address box City,Pincode,State,Country.</p>
+                        </div>
+
+                        <div>
+                            <label class="formbold-form-label">Bank Details</label>
+                            <input type="text" name="customer.BankDetails" class="formbold-form-input" />
+                        </div>
+                    </div>
+
+                    <div class="formbold-input-flex">
+                        <div>
+                            <label class="formbold-form-label">About Us / Service :</label>
+                            @Html.DropDownListFor(m => m.customer.AboutService, new SelectList(Model.userViewAbout.DropdownItems, "Value", "Text"), "Select About service", new { @class = "formbold-form-input", @id = "aboutus" })
+                        </div>
+                        <div>
+                            <label class="formbold-form-label" asp-for="customer.RegisteredEmailId" for="emailText">Registered Email Id *</label>
+                            <input type="text" id="emailText" asp-for="customer.RegisteredEmailId" class="formbold-form-input" />
+                            <span asp-validation-for="customer.RegisteredEmailId" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="formbold-form-label" asp-for="customer.CategoryList">Category *</label>
+                        @Html.DropDownListFor(m => m.customer.CategoryList, new SelectList(Model.userViewCategory.DropdownItems, "Value", "Text"), "Select Category", new { @class = "formbold-form-input", @id = "Category" })
+                    </div>
+
+                    <div>
+                        <label class="formbold-form-label" asp-for="customer.AboutUs">About Us *</label>
+                        <input type="text" id="AboutUS" asp-for="customer.AboutUs" class="formbold-form-input" />
+                        <span asp-validation-for="customer.AboutUs" class="text-danger"></span>
+                    </div>
+                    <div class="formbold-input-flex">
+                        <div>
+                            <label class="formbold-form-label" asp-for="customer.Password" for="Password">Password *</label>
+                            <input type="text" id="Password" asp-for="customer.Password" class="formbold-form-input" />
+                            <span asp-validation-for="customer.Password" class="text-danger"></span>
+                        </div>
+
+                        <div>
+                            <label class="formbold-form-label" asp-for="customer.ConfirmPassword" for="ConfirmPassword">Confirm Password *</label>
+                            <input type="text" id="ConfirmPassword" asp-for="customer.ConfirmPassword" class="formbold-form-input" />
+                            <span asp-validation-for="customer.ConfirmPassword" class="text-danger"></span>
+                        </div>
+                    </div>
+
+
+                    <div class="formbold-input-flex">
+                        <div>
+                            <label class="formbold-form-label" asp-for="customer.CountryName" for="countryDropdown">Country Name *</label>
+                            @Html.DropDownListFor(m => m.customer.CountryName, new SelectList(Model.userViewCountry.DropdownItems, "Value", "Text"), "Select Country", new { @class = "formbold-form-input", @id = "countryDropdown" })
+                            <span asp-validation-for="customer.CountryName" class="text-danger"></span>
+                        </div>
+
+                        <div>
+                            <label class="formbold-form-label" asp-for="customer.States" for="stateDropdown">States *</label>
+                            <select id="stateDropdown" class="formbold-form-input" asp-for="customer.States">
+                                <option value="">Select a state</option>
+                            </select>
+                            <span asp-validation-for="customer.States" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="formbold-input-flex">
+                        <div>
+                            <label class="formbold-form-label" asp-for="customer.City" for="cityDropdown">City *</label>
+                            <select id="cityDropdown" class="formbold-form-input" asp-for="customer.City">
+                                <option value="">Select a City</option>
+                            </select>
+                            <span asp-validation-for="customer.City" class="text-danger"></span>
+                        </div>
+                        <div>
+                            <label class="formbold-form-label" asp-for="customer.Pincode" for="Pincode">Pincode *</label>
+                            <input type="number" id="Pincode" asp-for="customer.Pincode" class="formbold-form-input" />
+                            <span asp-validation-for="customer.Pincode" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="formbold-input-flex">
+                        <div>
+                            <label class="formbold-form-label" asp-for="customer.RegisteredPhoneNumber" for="mobileRegister">Registered Phone Number * (OTP Verified)</label>
+                            <input type="text" id="mobileRegister" asp-for="customer.RegisteredPhoneNumber" class="formbold-form-input" />
+                            <input type="checkbox" aria-label="Checkbox for following text input" onclick="funnumberverify()" id="numbercheck">
+                            <span>Want to same<b style="color: green;"> WhatsApp Number?</b></span><br />
+                            <span asp-validation-for="customer.RegisteredPhoneNumber" class="text-danger"></span>
+                        </div>
+                        <div>
+                            <label class="formbold-form-label" asp-for="customer.WhatsappNumber" for="whatsAppNumber">Whatsapp Number</label>
+                            <input type="text" id="whatsAppNumber" asp-for="customer.WhatsappNumber" class="formbold-form-input" />
+                            <span asp-validation-for="customer.WhatsappNumber" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="formbold-input-flex">
+                        <div>
+                            <label class="formbold-form-label">Google Map Link</label>
+                            <input type="text" name="customer.GoogleMapLink" class="formbold-form-input" />
+                            <span asp-validation-for="customer.GoogleMapLink" class="text-danger"></span>
+                        </div>
+                        <div>
+                            <label class="formbold-form-label">Facebook Link</label>
+                            <input type="text" name="customer.FacebookCode" class="formbold-form-input" />
+                            <span asp-validation-for="customer.FacebookCode" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="formbold-input-flex">
+                        <div>
+                            <label class="formbold-form-label">Twitter Link</label>
+                            <input type="text" name="customer.TwitterLink" class="formbold-form-input" />
+                            <span asp-validation-for="customer.TwitterLink" class="text-danger"></span>
+                        </div>
+                        <div>
+                            <label class="formbold-form-label">Youtube Link</label>
+                            <input type="text" name="customer.Youtube" class="formbold-form-input" />
+                            <span asp-validation-for="customer.Youtube" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="formbold-input-flex">
+                        <div>
+                            <label class="formbold-form-label">Instagram Link</label>
+                            <input type="text" name="customer.InstagramLink" class="formbold-form-input" />
+                            <span asp-validation-for="customer.InstagramLink" class="text-danger"></span>
+                        </div>
+                        <div>
+                            <label class="formbold-form-label">Linkdin Link</label>
+                            <input type="text" name="customer.LinkdinLink" class="formbold-form-input" />
+                            <span asp-validation-for="customer.LinkdinLink" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div>
+                            <label class="formbold-form-label">Team Images </label>
+                            <input type="file" id="files" class="formbold-form-input" name="BrochureFiles" multiple />
+                        </div>
+                    </div>
+
+                    <div>
+                        <label asp-for="customer.Term_Condition" class="formbold-form-label">Terms and Conditions *</label>
+                        <input asp-for="customer.Term_Condition" id="Term_Condition" type="checkbox" /> I do accept the <a href="#!"><u>Terms and Conditions</u></a> of your site. <br />
+                        <span asp-validation-for="customer.Term_Condition" class="text-danger"></span>
+                    </div>
+
+                    <button type="submit" class="formbold-btn">Submit Information</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            // Initialize jQuery validation
+            $('#customerForm').validate({
+                rules: {
+                    CustomerName: {
+                        required: true,
+                        minlength: 1
+                    },
+                    Chooseyourtype: {
+                        required: true
+                    },
+                    Company_Business_Name: {
+                        required: true
+                    },
+                    Password: {
+                        required: true,
+                        minlength: 6
+                    },
+                    ConfirmPassword: {
+                        required: true,
+                        minlength: 6,
+                        equalTo: "#Password"
+                    },
+                    RegisteredEmailId: {
+                        required: true,
+                        email: true
+                    },
+                    RegisteredPhoneNumber: {
+                        required: true,
+                        minlength: 1,
+                        maxlength: 10,
+                        digits: true
+                    },
+                    WhatsappNumber: {
+                        required: true,
+                        minlength: 1,
+                        maxlength: 10,
+                        digits: true
+                    },
+                    CountryName: {
+                        required: true
+                    },
+                    States: {
+                        required: true
+                    },
+                    City: {
+                        required: true
+                    },
+                    Pincode: {
+                        required: true,
+                        digits: true,
+                        minlength: 6,
+                        maxlength: 6
+                    },
+                    Term_Condition: {
+                        required: true
+                    },
+                    GoogleMapLink: {
+                        url: true,
+                        depends: function (element) {
+                            return $(element).val().trim() !== '';
+                        }
+                    },
+                    TwitterLink: {
+                        url: true,
+                        depends: function (element) {
+                            return $(element).val().trim() !== '';
+                        }
+                    },
+                    FacebookCode: {
+                        url: true,
+                        depends: function (element) {
+                            return $(element).val().trim() !== '';
+                        }
+                    },
+                    Youtube: {
+                        url: true,
+                        depends: function (element) {
+                            return $(element).val().trim() !== '';
+                        }
+                    },
+                    InstagramLink: {
+                        url: true,
+                        depends: function (element) {
+                            return $(element).val().trim() !== '';
+                        }
+                    },
+                    LinkdinLink: {
+                        url: true,
+                        depends: function (element) {
+                            return $(element).val().trim() !== '';
+                        }
+                    }
+                },
+                messages: {
+                    CustomerName: {
+                        required: "Customer Name is required.",
+                        minlength: "Customer Name must be at least 1 character long."
+                    },
+                    Chooseyourtype: {
+                        required: "Please select a type."
+                    },
+                    Company_Business_Name: {
+                        required: "Company Business Name is required."
+                    },
+                    Password: {
+                        required: "Password is required.",
+                        minlength: "Password must be at least 6 characters long."
+                    },
+                    ConfirmPassword: {
+                        required: "Confirm Password is required.",
+                        minlength: "Confirm Password must be at least 6 characters long.",
+                        equalTo: "Passwords do not match."
+                    },
+                    RegisteredEmailId: {
+                        required: "Registered Email is required.",
+                        email: "Please enter a valid email address."
+                    },
+                    RegisteredPhoneNumber: {
+                        required: "Registered Phone Number is required.",
+                        minlength: "Phone Number must be between 1 and 10 digits.",
+                        maxlength: "Phone Number must be between 1 and 10 digits.",
+                        digits: "Please enter a valid phone number."
+                    },
+                    WhatsappNumber: {
+                        required: "Whatsapp Number is required.",
+                        minlength: "Whatsapp Number must be between 1 and 10 digits.",
+                        maxlength: "Whatsapp Number must be between 1 and 10 digits.",
+                        digits: "Please enter a valid whatsapp number."
+                    },
+                    CountryName: {
+                        required: "Please select a country."
+                    },
+                    States: {
+                        required: "Please select a state."
+                    },
+                    City: {
+                        required: "Please select a city."
+                    },
+                    Pincode: {
+                        required: "Pincode is required.",
+                        digits: "Pincode must be a valid number.",
+                        minlength: "Pincode must be exactly 6 digits long.",
+                        maxlength: "Pincode must be exactly 6 digits long."
+                    },
+                    Term_Condition: {
+                        required: "You must accept the terms and conditions."
+                    },
+                    GoogleMapLink: {
+                        url: "Please enter a valid URL.",
+                        depends: function (element) {
+                            return $(element).val().trim() !== '';
+                        }
+                    },
+                    TwitterLink: {
+                        url: "Please enter a valid URL.",
+                        depends: function (element) {
+                            return $(element).val().trim() !== '';
+                        }
+                    },
+                    FacebookCode: {
+                        url: "Please enter a valid URL.",
+                        depends: function (element) {
+                            return $(element).val().trim() !== '';
+                        }
+                    },
+                    Youtube: {
+                        url: "Please enter a valid URL.",
+                        depends: function (element) {
+                            return $(element).val().trim() !== '';
+                        }
+                    },
+                    InstagramLink: {
+                        url: "Please enter a valid URL.",
+                        depends: function (element) {
+                            return $(element).val().trim() !== '';
+                        }
+                    },
+                    LinkdinLink: {
+                        url: "Please enter a valid URL.",
+                        depends: function (element) {
+                            return $(element).val().trim() !== '';
+                        }
+                    }
+                }
+            });
+
+            $('#customerForm').on('submit', function (event) {
+                event.preventDefault(); // Prevent the default form submission
+
+                // Initialize the form validator
+                var validator = $(this).validate();
+
+                // Check if the form is valid
+                if ($(this).valid()) {
+                    // Show SweetAlert2 loader
+                    Swal.fire({
+                        title: 'Processing...',
+                        text: 'Please wait while we process your request.',
+                        allowOutsideClick: false,
+                        showConfirmButton: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+
+                    // Create FormData object from the form element
+                    var formData = new FormData(this);
+
+                    $.ajax({
+                        url: '@Url.Action("CreateWithImages", "Home")',
+                        type: 'POST',
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function (response) {
+                            Swal.close(); // Close the loader
+                            if (response.success) {
+                                Swal.fire({
+                                    title: 'OTP Sent',
+                                    text: 'An OTP has been sent to your registered email/phone number. You will be redirected shortly.',
+                                    icon: 'info',
+                                    confirmButtonText: 'OK',
+                                    allowOutsideClick: false
+                                }).then(() => {
+                                    window.location.href = response.redirectUrl; // Redirect on success
+                                });
+                            } else {
+                                Swal.fire({
+                                    title: 'Error',
+                                    text: response.message,
+                                    icon: 'error',
+                                    confirmButtonText: 'OK'
+                                });
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            Swal.close(); // Close the loader
+
+                            Swal.fire({
+                                title: 'Error',
+                                text: 'An unexpected error occurred: ' + xhr.responseText,
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            });
+                        }
+                    });
+                } else {
+                    console.log('Form is invalid.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

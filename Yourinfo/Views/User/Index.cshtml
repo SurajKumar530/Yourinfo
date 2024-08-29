@@ -1,0 +1,249 @@
+﻿@model Yourinfo.Models.CustomerDetails
+@{
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+    int brochureCount = 0;
+}
+<!-- ======= Hero Section ======= -->
+<section id="hero">
+    <div class="hero-container">
+        <div id="heroCarousel" class="carousel slide carousel-fade" data-ride="carousel">
+            <div class="carousel-inner" role="listbox">
+                <!-- Slide 1 -->
+                <div class="carousel-item active" style="background-image: url('~/user/assets/img/slide/slide-1.jpg');">
+                    <div class="carousel-container">
+                        <div class="carousel-logo_header">
+                            <a href="@Model.logoPath" data-gall="portfolioGallery" class="venobox" title="Image 1">
+                                <img src="@Model.logoPath" class="img-fluid" alt="Popup Image">
+                            </a>                           
+                        </div>
+                        <div class="carousel-content container">
+                            <h2 class="animated fadeInDown">Welcome ,<span>@Model.CustomerName</span></h2>
+                            <p class="animated fadeInUp"><strong>Company/Bussiness Name</strong>: @Model.Company_Business_Name</p>
+                            <p class="animated fadeInUp"><strong>Owner Name</strong>: @Model.OwnerFounder_Name</p>
+                            <p class="animated fadeInUp"><strong>Custom Field</strong>: @Model.CustomField</p>
+                            <a href="#about" class="btn-get-started animated fadeInUp scrollto">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Hero -->
+
+<!--  main -->
+<main id="main">
+    <!-- ======= About Us Section ======= -->
+    <section id="about" class="about">
+        <div class="container">
+
+            <div class="row no-gutters">
+                <div class="col-lg-12 d-flex flex-column justify-content-center about-content">
+
+                    <div class="section-title">
+                        <h2>@Model.AboutService</h2>
+                        <p>@Model.AboutUs</p>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+   <!-- End About Us Section -->
+    
+    <!-- ======= Services Section ======= -->
+    <section id="services" class="services">
+        <div class="container">
+
+            <div class="section-title">
+                <h2>Services</h2>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4 col-md-6 icon-box" data-aos="fade-up">
+                    <div class="icon"><i class="icofont-shield-alt"></i></div>
+                    <h4 class="title"><a href="">Value of Longevity and Reliability</a></h4>
+                    <p class="description">
+                        Investing in our products means investing in long-term reliability.
+                        Our commitment to quality ensures that each product is designed to last, saving you money and time on replacements and repairs. Discover the true value of durable, high-quality products
+                    </p>
+                </div>
+                <div class="col-lg-4 col-md-6 icon-box" data-aos="fade-up" data-aos-delay="100">
+                    <div class="icon"><i class="icofont-wink-smile"></i></div>
+                    <h4 class="title"><a href="">Satisfaction Guarantee</a></h4>
+                    <p class="description">
+                        We stand behind our products with a satisfaction guarantee. If you’re not completely satisfied with the quality, we offer easy returns and exchanges.
+                        Your satisfaction is our priority, and we’re confident you’ll love the quality of our products
+                    </p>
+                </div>
+                <div class="col-lg-4 col-md-6 icon-box" data-aos="fade-up" data-aos-delay="200">
+                    <div class="icon"><i class="icofont-earth"></i></div>
+                    <h4 class="title"><a href="">Anytime, Anywhere Support</a></h4>
+                    <p class="description">
+                        Our commitment to customer service means being available 24/7. Whether you're browsing our site late at night or need help early in the morning,
+                        our dedicated team is ready to provide support and ensure your experience is smooth and satisfying.
+                    </p>
+                </div>
+                <div class="col-lg-4 col-md-6 icon-box" data-aos="fade-up" data-aos-delay="300">
+                    <div class="icon"><i class="icofont-support"></i></div>
+                    <h4 class="title"><a href="">Contact & Support</a></h4>
+                    <p class="description">
+                        Our Contact & Support services are designed to provide you with the help you need, whenever you need it. Whether you have a question, require technical
+                        assistance, or need help with an order, our dedicated team is here to ensure a seamless experience.
+                    </p>
+                </div>
+                <div class="col-lg-4 col-md-6 icon-box" data-aos="fade-up" data-aos-delay="400">
+                    <div class="icon"><i class="icofont-certificate"></i></div>
+                    <h4 class="title"><a href="">Offer an Easy Way to Leave Feedback</a></h4>
+                    <p class="description">
+                        Your feedback is invaluable to us. We’ve made it easy for you to share your thoughts and experiences through a simple and accessible feedback system.
+                        Whether you’re providing suggestions, reporting an issue,
+                        or sharing your satisfaction, you can do so effortlessly via our feedback forms, email, or social media channels. Your input helps us continually improve and serve you better
+                    </p>
+                </div>
+                <div class="col-lg-4 col-md-6 icon-box" data-aos="fade-up" data-aos-delay="500">
+                    <div class="icon"><i class="icofont-business-man-alt-1"></i></div>
+                    <h4 class="title"><a href="">Personalized Customer Experience</a></h4>
+                    <p class="description">
+                        We strive to make every interaction unique and tailored to your individual needs. Our personalized customer experience approach involves understanding your preferences
+                        and past interactions to offer solutions and recommendations that best fit you. From customized product suggestions to personalized support, we ensure that your experience with us is as
+                        relevant and satisfying as possible.
+                        By recognizing and addressing your specific needs, we aim to make you feel valued and understood at every step of your journey with us.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <!-- End Services Section -->
+    <!-- ======= Our Portfolio Section ======= -->
+    @if (Model.GalleryImages != null && Model.GalleryImages.Any())
+    {
+        <section id="portfolio" class="portfolio section-bg">
+            <div class="container" data-aos="fade-up" data-aos-delay="100">
+                <div class="section-title">
+                    <h2>Our Gallery Images</h2>
+                </div>
+                <div class="row portfolio-container">
+
+                    @foreach (var item in Model.GalleryImages)
+                    {
+                        <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+                            <div class="portfolio-wrap">
+                                <img src="@item.ImagePath" class="img-fluid" alt="">
+                                <div class="portfolio-info">
+                                    <h4>Image 1</h4>
+                                    <p>@item.ImageName</p>
+                                    <div class="portfolio-links">
+                                        <a href="@item.ImagePath" data-gall="portfolioGallery" class="venobox" title="Image 1"><i class="icofont-eye"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </section>
+    }
+    <!-- End Our Portfolio Section -->
+    <!-- ======= Our Team Section ======= -->
+    @if (Model.BrochureImage != null && Model.BrochureImage.Any())
+    {
+        <section id="team" class="team">
+            <div class="container">
+
+                <div class="section-title">
+                    <h2>Our Team</h2>
+                </div>
+
+                <div class="row">
+
+                    @foreach (var item in Model.BrochureImage)
+                    {
+                        <div class="col-xl-3 col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="@brochureCount">
+                            <div class="member">
+                                <div class="pic">
+                                    <img src="@Url.Content(item.ImagePath)" class="img-fluid" alt="Brochure Image">
+                                </div>
+                            </div>
+                        </div>
+
+                        {
+                            brochureCount += 100;
+                        }
+                    }
+                </div>
+            </div>
+        </section>
+    }
+    <!-- End Our Team Section -->
+    <!-- ======= Contact Us Section ======= -->
+    <section id="contact" class="contact section-bg">
+        <div class="container">
+            <div class="section-title">
+                <h2>Contact Us</h2>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 d-flex align-items-stretch" data-aos="fade-up">
+                    <div class="info-box">
+                        <i class="bx bx-map"></i>
+                        <h3>Our Address</h3>
+                        <p>@Model.Address, @Model.City,@Model.States,@Model.CountryName @Model.Pincode</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
+                    <div class="info-box">
+                        <i class="bx bx-envelope"></i>
+                        <h3>Email Us</h3>
+                        <p>@Model.RegisteredEmailId</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="200">
+                    <div class="info-box ">
+                        <i class="bx bx-phone-call"></i>
+                        <h3>Call Us</h3>
+                        <p>@Model.RegisteredPhoneNumber</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-12" data-aos="fade-up" data-aos-delay="300">
+                    <form asp-controller="User" asp-action="SendEmail" method="post" role="form" class="php-email-form">
+                        <div class="form-row">
+                            <div class="col-lg-6 form-group">
+                                <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                                <div class="validate"></div>
+                            </div>
+                            <div class="col-lg-6 form-group">
+                                <input type="email" class="form-control" name="recipientEmail" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email" />
+                                <div class="validate"></div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
+                            <div class="validate"></div>
+                        </div>
+                        <div class="form-group">
+                            <textarea class="form-control" name="message" rows="5" data-rule="required" data-msg="Please write something for us" placeholder="Message"></textarea>
+                            <div class="validate"></div>
+                        </div>
+                        <div class="mb-3">
+                            @if (TempData["Message"] != null)
+                            {
+                                <div class="alert alert-success">
+                                    @TempData["Message"]
+                                </div>
+                            }
+                        </div>
+                        <div class="text-center"><button type="submit">Send Message</button></div>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+    <!-- End Contact Us Section -->
+</main>
+<!-- End #main -->

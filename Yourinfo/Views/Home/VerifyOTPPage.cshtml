@@ -1,0 +1,220 @@
+﻿@model VerifyOTPViewModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Styled Form</title>
+    @* <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> *@
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/sweetalert/sweetalert2@11.js"></script>
+    @* <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> *@
+    <script>
+        var timerDuration = 5; // Duration in seconds
+        var timerInterval;
+
+        // Function to update timer display
+        function updateTimerDisplay(seconds) {
+            var minutes = Math.floor(seconds / 60);
+            var remainingSeconds = seconds % 60;
+            document.getElementById("timer").innerHTML = "Resend OTP in " + minutes + "m " + remainingSeconds + "s";
+        }
+
+        // Function to start timer for 1 minute
+        function startTimer() {
+            var secondsRemaining = timerDuration;
+            updateTimerDisplay(secondsRemaining);
+            document.getElementById("timer").style.display = "block";
+            document.getElementById("resendOtpBtn").style.display = "none";
+
+            timerInterval = setInterval(function () {
+                secondsRemaining--;
+                updateTimerDisplay(secondsRemaining);
+
+                if (secondsRemaining <= 0) {
+                    clearInterval(timerInterval);
+                    document.getElementById("timer").style.display = "none";
+                    document.getElementById("resendOtpBtn").style.display = "block";
+                }
+            }, 1000); // Update every second
+        }
+
+        // Call startTimer when the page loads
+        document.addEventListener("DOMContentLoaded", startTimer);
+
+        $(document).ready(function () {
+            $('#resendOtpBtn').click(function () {
+                var customerId = $('#CustomerId').val(); // Get customerId from hidden input field
+
+                // Perform AJAX request
+                $.ajax({
+                    url: '/Home/ResendOTP', // URL to your action method
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ customerId: customerId }), // Pass customerId as JSON
+                    dataType: 'json',
+                    success: function (response) {
+                        if (response.success) {
+                            Swal.fire({
+                                title: 'Success',
+                                text: response.message,
+                                icon: 'success',
+                                confirmButtonText: 'OK'
+                            }).then(() => {
+                                startTimer(); // Restart the timer
+                            });
+                        } else {
+                            Swal.fire({
+                                title: 'Error',
+                                text: response.message,
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'An unexpected error occurred: ' + xhr.responseText,
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                });
+            });
+        });
+
+        $('#otpForm').submit(function (event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            var form = $(this);
+            var formData = form.serialize(); // Serialize form data
+
+            $.ajax({
+                url: form.attr('action'),
+                type: form.attr('method'),
+                data: formData,
+                success: function (response) {
+                    if (response.success) {
+                        Swal.fire({
+                            title: 'Success',
+                            text: response.message,
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            window.location.href = response.redirectUrl; // Redirect on success
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Error',
+                            text: response.message,
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                },
+                error: function (xhr, status, error) {
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'An unexpected error occurred: ' + xhr.responseText,
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            });
+        });
+    </script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            background-color: #f2f2f2;
+            border-radius: 5px;
+            padding: 20px;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+            button[type="submit"]:hover {
+                background-color: #45a049;
+            }
+
+        .resendOtpBtn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>OTP Code Verification</h1>
+        <form id="otpForm" method="post" asp-action="VerifyOTP">
+            @Html.AntiForgeryToken()
+            <label>OTP :@Model.OTPCode</label><br />
+            <label for="mobileOtp">Enter the OTP code sent to @Model.MobileIdentifier :</label>
+            <input type="number" id="mobileOtp" name="otp" maxlength="6" minlength="6" required>
+            <input type="hidden" id="identifier" name="identifier" value="@Model.MobileIdentifier" />
+            <input type="hidden" id="otpType" name="otpType" value="Mobile" />
+            <input type="hidden" id="CustomerId" name="CustomerId" value="@Model.CustomerId" />
+            <button type="submit">Verify OTP Code</button>
+            <br />
+            <br />
+            <!-- Placeholder for Resend OTP button -->
+            <button type="button" class="btn btn-success" id="resendOtpBtn" style="display: none; background-color: #007bff; color: white; padding: 12px 20px; border: none; border-radius: 4px; cursor: pointer; width: 100%; ">
+                Resend OTP
+            </button>
+            <br />
+            <p>Note : OTP will valid upto 10 mintues</p>
+            <!-- Timer display -->
+            <div id="timer" style="display: none;"></div>
+        </form>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,87 @@
+body {
+  height: 100%;
+  padding: 20px;
+  background-color: #673ab7;
+}
+
+button {
+  /**Position**/
+  margin: 5px 10px;
+  
+  /**Size**/
+  height: 40px;
+  width: 110px;
+  
+  
+  /**Styling**/
+  background-color: #2196f3;
+  border: none;
+  border-radius: 2px;
+  box-shadow: 0px 10px 25px -10px #000;
+  
+  /**Font Styling**/
+  color: white;
+  font-family: 'Roboto', sans-serif;
+}
+
+button:hover {
+  background-color: #0069c0;
+  
+}
+button:active {
+  box-shadow: 0px 1px 2px 0 #000
+}
+
+div {
+  position: relative;
+  margin: 0 auto;
+  padding: 0 ;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#cardContainer {
+/*   background: white; */
+  position: relative;
+  margin: 50px auto;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+#warningText {
+  font-family: "Roboto", sans-serif;
+  color: white;
+  font-size: 2rem;
+  text-align: center;
+}
+
+.card {
+  width: 100px;
+  height: 150px;
+  margin: 1.5rem 2.5rem;
+  padding: 50px;
+  border-radius: 1%;
+  background-color: #4caf50;
+  box-shadow: 0px 5px 30px -5px #000;
+  color: white;
+  font-size: 2rem;
+  font-family: 'Roboto', sans-serif;
+}
+
+#buttonSection {
+  background: ;
+  position: relative;
+  margin: 50px auto;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#reloadButton {
+  margin: auto;
+}

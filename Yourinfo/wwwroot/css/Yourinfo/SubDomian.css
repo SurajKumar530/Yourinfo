@@ -1,0 +1,79 @@
+﻿.share {
+    background: #ff0042 !important;
+}
+
+@media only screen and (max-width: 500px) {
+    .hidden-xs {
+        display: none;
+    }
+
+    .mb-30 {
+        display: none;
+    }
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+.kk {
+    border: #ff0042 solid 2px !important;
+}
+
+.top-right-info-btm span {
+    color: #ff0042 !important;
+}
+
+.picon {
+    color: #ff0042 !important;
+}
+
+.copy_right p {
+    background-color: #ff0042 !important;
+}
+
+.col-sm-4 {
+    margin-top: 20px;
+}
+
+.form-control {
+    border: 1px solid #ff0042 !important;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+    .tooltip .tooltiptext {
+        visibility: hidden;
+        width: 140px;
+        background-color: #555;
+        color: #fff;
+        text-align: center;
+        border-radius: 6px;
+        padding: 5px;
+        position: absolute;
+        z-index: 1;
+        bottom: 150%;
+        left: 50%;
+        margin-left: -75px;
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: #555 transparent transparent transparent;
+        }
+
+    .tooltip:hover .tooltiptext {
+        visibility: visible;
+        opacity: 1;
+    }

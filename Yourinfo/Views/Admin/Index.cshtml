@@ -1,0 +1,258 @@
+﻿@model Yourinfo.Models.Admin.CustomerViewModel
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>YourInfo PVT.LTD.</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    @* <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> *@
+    <script>
+        $(document).ready(function () {
+            // Use event delegation for dynamically added elements
+            $(document).on('click', '#extenedButton', function () {
+                var customerId = $(this).data('customer-id');
+                $('#customerId').val(customerId);
+            });
+
+            $(document).on('click', '#editButton', function () {
+                var customerId = $('#customerId').val();
+                var days = $('#txtDays').val();
+
+                if (days === "" || isNaN(days) || parseInt(days) < 1) {
+                    alert("Please enter a valid number of days.");
+                    return;
+                }
+
+                $.ajax({
+                    url: '/Admin/UpdateDays', // Replace with your actual URL
+                    type: 'POST',
+                    data: {
+                        customerId: customerId,
+                        additionalDays: days
+                    },
+                    success: function () {
+                        console.log('Data updated successfully');
+                        $('#new-order').modal('hide'); // Hide the modal
+                        location.reload();
+                    },
+                    error: function () {
+                        alert('Error updating data. Please try again.');
+                        console.error('Error updating data');
+                    }
+                });
+            });
+
+            // Handle Verify, Update Status, and Delete actions
+            function handleAction(url, ID) {
+                ;
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    dataType: 'json',
+                    data: { id: ID },
+                    success: function () {
+                        location.reload();
+                    },
+                    error: function (xhr) {
+                        alert('An error occurred: ' + xhr.responseText);
+                        console.error(xhr.responseText);
+                    }
+                });
+            }
+
+            window.verify = function (ID) {
+                handleAction('@Url.Action("VerifyAction", "Admin")', ID);
+            }
+
+            window.UpdateStatus = function (ID) {
+                handleAction('@Url.Action("UpdateStatus", "Admin")', ID);
+            }
+
+            window.DeleteCustomer = function (ID) {
+                handleAction('@Url.Action("DeleteCustomer", "Admin")', ID);
+            }
+
+            function performSearch() {
+                var filter = $('#filterDropdown').val();
+                $.ajax({
+                    url: '@Url.Action("Search", "Admin")', // Update with your actual URL
+                    type: 'POST',
+                    data: {
+                        keyword: filter
+                    },
+                    success: function (data) {
+                        $('#resultsContainer').html(data); // Update the results container with the new data
+                    },
+                    error: function () {
+                        alert('An error occurred while searching.');
+                    }
+                });
+            }
+
+
+            $('#filterDropdown').on('change', performSearch);
+        });
+    </script>
+</head>
+<body>
+    <div class="col-lg-12">
+        <div class="table-responsive rounded mb-3">
+            @if (Model.CustomerList != null && Model.CustomerList.Count > 0)
+            {
+                <select id="filterDropdown" class="form-control" style="width: 116px;margin-left: auto;">
+                    <option value="All">All</option>
+                    <option value="ACTIVE">Active</option>
+                    <option value="DE-ACTIVE">De-Active</option>
+                </select>
+                <table class="table mb-0 tbl-server-info" id="resultsContainer">
+                    <thead class="bg-white text-uppercase">
+                        <tr class="ligth ligth-data">
+                            <th>
+                                <div class="checkbox d-inline-block">
+                                    <input type="checkbox" class="checkbox-input" id="selectAll">
+                                    <label for="selectAll" class="mb-0"></label>
+                                </div>
+                            </th>
+                            <th>View</th>
+                            <th>Registered Date</th>
+                            <th>Account Type</th>
+                            <th>Business Name</th>
+                            <th>Full Name</th>
+                            <th>Email ID</th>
+                            <th>Registered No.</th>
+                            <th>Password</th>
+                            <th>Expired Date</th>
+                            <th>Left Days</th>
+                            <th>Edit</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="ligth-body">
+                        @foreach (var customer in Model.CustomerList)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="checkbox d-inline-block">
+                                        <input type="checkbox" class="checkBox checkbox-input" id="checkBox_@customer.CustomerID">
+                                        <label for="checkBox_@customer.CustomerID" class="mb-0"></label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center list-action">
+                                        @if(@customer.FullURL != null)
+                                        {
+                                            <a class="badge badge-info mr-2" data-toggle="tooltip" data-placement="top" title="View"
+                                               href="@customer.FullURL" target="_blank" rel="noopener noreferrer"><i class="ri-eye-line mr-0"></i></a>
+                                        }
+                                        
+                                        <a class="badge bg-success mr-2" data-toggle="tooltip" data-placement="top" title="Edit"
+                                           href="@Url.Action("Edit", "Admin", new { id = customer.CustomerID })" target="_blank" rel="noopener noreferrer"><i class="ri-pencil-line mr-0"></i></a>
+                                    </div>
+                                </td>
+                                <td>@DateTime.Parse(customer.REGISTEREDDATE).ToString("MM/dd/yyyy")</td>
+                                <td>@customer.ACCOUNT_TYPE</td>
+                                <td>@customer.Business_Name</td>
+                                <td>@customer.FULL_NAME</td>
+                                <td>@customer.REGISTER_EMAIL</td>
+                                <td>@customer.Phone_Number</td>
+                                <td>@customer.Password</td>
+                                <td>@DateTime.Parse(customer.EXPIREDDATE).ToString("MM/dd/yyyy")</td>
+                                <td>@customer.DAYSLEFT</td>
+                                <td>
+                                    <a id="extenedButton" class="badge badge-primary mr-0" data-placement="top" title="Extend Days"
+                                       href="#" data-toggle="modal" data-target="#new-order" data-customer-id="@customer.CustomerID">
+                                        <i class="ri-increase-decrease-line mr-0"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <div class="badge @(customer.Status == "ACTIVE" ? "badge-success" : "badge-danger")"
+                                         onclick="UpdateStatus(@customer.CustomerID)">
+                                        @customer.Status
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center list-action">
+                                        <a id="verifyButton" class="badge @(customer.IsLiveVerfied == "LIVE" ? "badge-success" : "badge-danger") mr-2"
+                                           data-toggle="tooltip" data-placement="top" title="Verify"
+                                           href="#" onclick="verify(@customer.CustomerID)">
+                                            <i class="ri-registered-line mr-0"></i>
+                                        </a>
+                                        <a class="badge bg-warning mr-2" data-toggle="tooltip" data-placement="top" title="Delete"
+                                           href="#" onclick="DeleteCustomer(@customer.CustomerID)">
+                                            <i class="ri-delete-bin-line mr-0"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                
+            }
+            else
+            {
+                <div>No customers found.</div>
+            }
+        </div>
+        @if (Model.CustomerList != null && Model.CustomerList.Count > 0)
+        {
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-end">
+                    <!-- Previous Button -->
+                    <li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
+                        <a class="page-link" href="?page=@(Model.CurrentPage - 1)" aria-label="Previous">
+                            @* <span aria-hidden="true">&laquo;</span> *@
+                            <span aria-hidden="true">&laquo; Previous</span>
+                        </a>
+                    </li>
+
+                    <!-- Page Number Buttons -->
+                    @for (int i = 1; i <= Model.TotalPages; i++)
+                    {
+                        <li class="page-item @(Model.CurrentPage == i ? "active" : "")">
+                            <a class="page-link" href="?page=@i">@i</a>
+                        </li>
+                    }
+
+                    <!-- Next Button -->
+                    <li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
+                        <a class="page-link" href="?page=@(Model.CurrentPage + 1)" aria-label="Next">
+                            @* <span aria-hidden="true">&raquo;</span> *@
+                            <span aria-hidden="true">Next &raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        }
+        <div class="modal fade" id="new-order" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="popup text-left">
+                            <h4 class="mb-3">Update Days</h4>
+                            <div class="content create-workform bg-body">
+                                <input type="hidden" id="customerId" value="">
+                                <div class="pb-3">
+                                    <label class="mb-2" for="txtDays">No Of Days :</label>
+                                    <input type="number" id="txtDays" class="form-control" placeholder="Enter No of Days Extended">
+                                </div>
+                                <div class="col-lg-12 mt-4">
+                                    <div class="d-flex flex-wrap align-items-center justify-content-center">
+                                        <button class="btn btn-outline-primary mr-4" id="editButton">Edit</button>
+                                        <button class="btn btn-primary mr-4" data-dismiss="modal">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,4 @@
+﻿@{
+    var isAdminController = Context.Request.Path.StartsWithSegments("/Admin");
+    Layout = isAdminController ? "_AdminLayout.cshtml" : "_Layout.cshtml";
+}

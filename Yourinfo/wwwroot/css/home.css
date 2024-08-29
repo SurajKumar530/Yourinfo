@@ -1,0 +1,27 @@
+﻿/* Default styles for the div */
+.responsive-div {
+    width: 100%; /* Default width */
+    background-color: lightgray; /* Default background color */
+    padding: 20px;
+}
+
+/* Media query for desktop */
+@media (min-width: 992px) {
+    .responsive-div.desktop {
+        width: 50%; /* Adjust width for desktop */
+    }
+}
+
+/* Media query for tablet */
+@media (min-width: 768px) and (max-width: 991px) {
+    .responsive-div.tablet {
+        width: 70%; /* Adjust width for tablet */
+    }
+}
+
+/* Media query for mobile */
+@media (max-width: 767px) {
+    .responsive-div.mobile {
+        width: 90%; /* Adjust width for mobile */
+    }
+}

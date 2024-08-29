@@ -1,0 +1,93 @@
+﻿.divcontainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.wrapper {
+    width: 80%; /* Adjust wrapper width */
+    background-color: red; /* Red background for wrapper */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Optional: Add shadow for depth */
+}
+
+.form-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two equal columns */
+    gap: 20px; /* Gap between grid items */
+}
+
+.left-section {
+    flex: 70%; /* Left section takes 70% of wrapper width */
+    padding: 20px;
+    border: 1px solid #ccc;
+}
+
+.right-section {
+    flex: 30%; /* Right section takes 30% of wrapper width */
+    padding: 20px;
+    border: 1px solid #ccc;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 8px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    .form-group textarea {
+        width: 100%;
+        padding: 8px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        resize: vertical;
+    }
+
+    .form-group select {
+        width: 100%;
+        padding: 8px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    .form-group button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+@media (max-width: 768px) {
+    .wrapper {
+        flex-direction: column; /* Stack sections on smaller screens */
+        width: 90%; /* Adjust wrapper width for smaller screens */
+    }
+
+    .left-section, .right-section {
+        flex: auto; /* Take full width on smaller screens */
+        margin-bottom: 20px;
+    }
+}
+
+.button-wrapper {
+    text-align: center;
+}
