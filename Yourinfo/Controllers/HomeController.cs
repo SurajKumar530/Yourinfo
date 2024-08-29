@@ -337,7 +337,7 @@ namespace Yourinfo.Controllers
         }
 
         [HttpPost]
-        public IActionResult ResendOTP([FromBody] string customerId)
+        public IActionResult ResendOTP(string customerId)
         {
             try
             {
@@ -428,16 +428,20 @@ namespace Yourinfo.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult CreateLinkwithURL(string subDomain, string domain, string customerId)
         {
+            if (string.IsNullOrWhiteSpace(subDomain) || string.IsNullOrWhiteSpace(domain) || string.IsNullOrWhiteSpace(customerId))
+            {
+                return Json(new { success = false, message = "Invalid input parameters." });
+            }
             try
             {
                 var cust = SiteUtility.Decrypt(customerId);
                 var result = _user.updateSubDomain(subDomain, domain, cust);
                 if (result == 0)
                 {
-                    var URL = domain + '/' + subDomain;
-                    _logger.LogInformation($"Create Link URL : {URL}");
-                    var cust1 = SiteUtility.Encrypt(customerId);
-                    return Json(new { success = true, url = URL, customerId = cust1 });
+                   var url = $"{domain}/{subDomain}";
+                    _logger.LogInformation($"Created link URL: {url}");
+                    var redirectUrl = Url.Action("SuccessLink", "Home", new { url, customerId = SiteUtility.Encrypt(customerId) });
+                    return Json(new { success = true, redirectUrl });
                 }
                 else if (result == 1)
                 {

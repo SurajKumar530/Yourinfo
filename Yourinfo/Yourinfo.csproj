@@ -48,6 +48,7 @@
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="Views\Admin\SuccessPassword.cshtml" />
+    <_ContentIncludedByDefault Remove="wwwroot\createLink.css" />
   </ItemGroup>
 
   <ItemGroup>

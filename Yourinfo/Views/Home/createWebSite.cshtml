@@ -285,6 +285,7 @@
                         <div>
                             <label class="formbold-form-label">About Us / Service :</label>
                             @Html.DropDownListFor(m => m.customer.AboutService, new SelectList(Model.userViewAbout.DropdownItems, "Value", "Text"), "Select About service", new { @class = "formbold-form-input", @id = "aboutus" })
+                            <span asp-validation-for="customer.AboutService" class="text-danger"></span>
                         </div>
                         <div>
                             <label class="formbold-form-label" asp-for="customer.RegisteredEmailId" for="emailText">Registered Email Id *</label>
@@ -296,6 +297,7 @@
                     <div>
                         <label class="formbold-form-label" asp-for="customer.CategoryList">Category *</label>
                         @Html.DropDownListFor(m => m.customer.CategoryList, new SelectList(Model.userViewCategory.DropdownItems, "Value", "Text"), "Select Category", new { @class = "formbold-form-input", @id = "Category" })
+                        <span asp-validation-for="customer.CategoryList" class="text-danger"></span>
                     </div>
 
                     <div>

@@ -39,6 +39,7 @@ namespace Yourinfo.Models
         public string GalleryImage { get; set; }
         public List<GalleryImages> GalleryImages { get; set; } = new List<GalleryImages>();
 
+        [Required(ErrorMessage = "About Service is required")]
         public string AboutService { get; set; }
 
         [Required(ErrorMessage = "About US is required")]
