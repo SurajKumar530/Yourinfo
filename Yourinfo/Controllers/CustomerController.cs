@@ -77,6 +77,7 @@ namespace Yourinfo.Controllers
             try
             {
                 var user = HttpContext.User;
+
                 if (user.Identity.IsAuthenticated)
                 {
                     var getCustomerId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
