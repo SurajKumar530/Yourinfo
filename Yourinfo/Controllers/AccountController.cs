@@ -27,7 +27,6 @@ namespace Yourinfo.Controllers
             return View();
         }
 
-
         [AllowAnonymous] // Allows access without authentication
         [HttpGet]
         public IActionResult Login()
