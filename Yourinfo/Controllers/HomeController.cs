@@ -440,7 +440,7 @@ namespace Yourinfo.Controllers
                 {
                    var url = $"{domain}/{subDomain}";
                     _logger.LogInformation($"Created link URL: {url}");
-                    var redirectUrl = Url.Action("SuccessLink", "Home", new { url, customerId = SiteUtility.Encrypt(customerId) });
+                    var redirectUrl = Url.Action("SuccessLink", "Home", new { url= domain, customerId = SiteUtility.Encrypt(customerId) });
                     return Json(new { success = true, redirectUrl });
                 }
                 else if (result == 1)
