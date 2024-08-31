@@ -414,7 +414,7 @@
 
                     <div>
                         <label asp-for="customer.Term_Condition" class="formbold-form-label">Terms and Conditions *</label>
-                        <input asp-for="customer.Term_Condition" id="Term_Condition" type="checkbox" /> I do accept the <a href="#!"><u>Terms and Conditions</u></a> of your site. <br />
+                        <input asp-for="customer.Term_Condition" id="Term_Condition" type="checkbox" /> I do accept the <a href="#staticBackdrop" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><u>Terms and Conditions</u></a> of your site. <br />
                         <span asp-validation-for="customer.Term_Condition" class="text-danger"></span>
                     </div>
 
@@ -422,11 +422,72 @@
                 </form>
             </div>
         </div>
+        <!-- Modal -->
+        <!-- Modal -->
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Terms and Conditions</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h2 class="fs-5">Service Description </h2>
+                        <p>
+                            We are offering you a world-class websites at an affordable price.We understand that every business is unique. That’s why we tailor our web solutions to meet your specific needs and goals.
+                        </p>
+                        <hr>
+                        <h2 class="fs-5">Pricing and payment terms</h2>
+                        <p>
+                            The price charged according to the services is fair.
+                            The company can increase the payment at any time on any day and in any year.We charge competitive rates that reflect the high standard of our work. Our pricing is based on the specific services and solutions we provide, ensuring that you only pay for what you need.
+                        </p>
+                        <hr>
+                        <h2 class="fs-5">Refund Policy</h2>
+                        <p>
+                            Once the development of your website or any related services has commenced, we consider the project to be in progress. At this stage, no refunds will be issued.
+                        </p>
+                        <hr>
+                        <h2 class="fs-5">Termination policy</h2>
+                        <p>
+                            Termination may occur due to various reasons, including but not limited to, non-compliance with our terms and conditions, failure to meet payment obligations, or any other issues that may affect the delivery and quality of our services.
+                        </p>
+                        <hr>
+                        <h2 class="fs-5">Related court</h2>
+                        <p>
+                            Any type of court-related issue can be addressed in Chandigarh India.
+                            All matters related to the interpretation, enforcement, and resolution of disputes concerning our services shall be governed by the laws of India.
+                        </p>
+                        <hr>
+                        <h2 class="fs-5">Renew System</h2>
+                        <p>
+                            If the customer does not renew the service by the end of the month and year for which the payment was made the company can suspend the service.
+                        </p>
+                        <hr>
+                        <h2 class="fs-5">SELF Decision</h2>
+                        <p>
+                            Your engagement with our services is based on your own needs and preferences. We respect your autonomy in making this choice and aim to support you with high-quality service that meets your expectations.
+                        </p>
+                        <h2 class="fs-5">Thanks And Regards</h2>
+                        <p>
+                            Thank you very much for connecting with Yoursinfo.
+                        </p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </div>
 
     <script>
         $(document).ready(function () {
+
+
+
+
             // Initialize jQuery validation
             $('#customerForm').validate({
                 rules: {

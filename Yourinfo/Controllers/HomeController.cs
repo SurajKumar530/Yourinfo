@@ -33,12 +33,14 @@ namespace Yourinfo.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IUserRepository _user;
+        private readonly IAdminRepository _admin;
         private readonly ILogger<HomeController> _logger;
         private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly ImageService imageService;
-        public HomeController(ApplicationDbContext dbContext, IUserRepository user, IWebHostEnvironment hostingEnvironment, ILogger<HomeController> logger, ImageService _imageService)
+        public HomeController(ApplicationDbContext dbContext, IAdminRepository admin, IUserRepository user, IWebHostEnvironment hostingEnvironment, ILogger<HomeController> logger, ImageService _imageService)
         {
             _context = dbContext;
+            _admin = admin;
             _user = user;
             _logger = logger;
             _hostingEnvironment = hostingEnvironment;
@@ -52,27 +54,33 @@ namespace Yourinfo.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
         {
             try
             {
                 if (model.Username == null && model.Password == null)
                 {
-                    return BadRequest("Invalid Request ");
+                    return Json(new { success = false, message = "Username or password are empty fill." });
                 }
 
-                User user = await _user.AuthenticateUser(model.Username, model.Password);
+                User user = await _admin.AuthenticateUser(model.Username, model.Password);
 
                 if (user != null)
                 {
-                    return RedirectToAction("createWebSite", "Home");
+                    if (user.Roles.Contains("Admin"))
+                    {
+                        var redirectUrl = Url.Action("createWebSite", "Home");
+                        return Json(new { success = true, redirectUrl });
+                    }
+                    else
+                    {
+                        return Json(new { success = false, message = "Not Rights to Login Here ." });
+                    }
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Invalid username or password.");
+                    return Json(new { success = false, message = "Invalid username or password." });
                 }
-                return View();
             }
             catch (Exception)
             {
